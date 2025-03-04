@@ -17,16 +17,13 @@ class UserRepository {
 
   @Transaction()
   async createUser(email: string, name: string) {
-    const newUser = prisma.user.create({
+    const newUser = await prisma.user.create({
       data: { email, name },
     });
-    const newUser2 = prisma.user.create({
-      data: { email: email + 't', name },
-    });
-    const [_newUser, _newUser2] = await Promise.all([newUser, newUser2]);
+
     return {
-      name: _newUser.name,
-      email: _newUser.email,
+      name: newUser.name,
+      email: newUser.email,
     };
   }
 
